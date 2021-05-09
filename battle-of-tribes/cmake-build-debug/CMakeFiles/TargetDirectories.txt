@@ -1,0 +1,3 @@
+D:/Code/git/battle-of-tribes/battle-of-tribes/cmake-build-debug/CMakeFiles/battle_of_tribes.dir
+D:/Code/git/battle-of-tribes/battle-of-tribes/cmake-build-debug/CMakeFiles/edit_cache.dir
+D:/Code/git/battle-of-tribes/battle-of-tribes/cmake-build-debug/CMakeFiles/rebuild_cache.dir

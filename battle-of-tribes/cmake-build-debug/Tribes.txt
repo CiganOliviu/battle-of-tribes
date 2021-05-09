@@ -1,0 +1,6 @@
+Papa John,Chippewa,chieftain,70.56,168.56
+Manu,Shawnee,horseman,60.45,89.34
+Eagle,Shawnee,chieftain,90.55,150.89
+Huri,Maidu,hunter,67.53,120.73
+Mayo,Chippewa,cook,84.59,111.22
+Boua,Maidu,chieftain,99.66,150.44
