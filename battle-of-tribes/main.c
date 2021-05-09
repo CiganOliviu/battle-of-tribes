@@ -1,8 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 
-#define MAX_NUMBER_OF_PEOPLE 1000
+#define MAX_NUMBER_OF_MEMBERS 1000
+#define MAX_NUMBER_OF_TRIBES 10
 
 typedef struct
 {
@@ -12,6 +14,12 @@ typedef struct
     float PowerWhenRains;
     float PowerWhenIsSunny;
 } TribeMember;
+
+typedef struct
+{
+    char Name[40];
+    int NumberOfMembers;
+} TribeCharacteristics;
 
 FILE * OpenFile(const char * FileName)
 {
@@ -65,8 +73,7 @@ void GetPositionInStruct(TribeMember * TribeMembers, int Index, int Position, ch
 
 TribeMember * GetTribeMembers(FILE * File)
 {
-    TribeMember * TribeMembers =
-            (TribeMember *)malloc(MAX_NUMBER_OF_PEOPLE * sizeof(TribeMember));
+    TribeMember * TribeMembers = (TribeMember *)malloc(MAX_NUMBER_OF_MEMBERS * sizeof(TribeMember));
 
     char Line[50];
     int Index = 0;
@@ -88,6 +95,46 @@ TribeMember * GetTribeMembers(FILE * File)
     }
 
     return TribeMembers;
+}
+
+bool FindTribe(TribeCharacteristics * Tribes, int NumberOfTribes, char * SearchedTribe)
+{
+    for (int i = 0; i < NumberOfTribes; ++i)
+        if (strcmp(Tribes[i].Name, SearchedTribe) == 0)
+            return true;
+
+    return false;
+}
+
+void IncrementTribeMembers(TribeMember * TribeMembers, TribeCharacteristics * Tribes, int * NumberOfTribes, int Position)
+{
+    for (int i = 0; i < *NumberOfTribes; ++i)
+    {
+        if (strcmp(TribeMembers[Position].Tribe, Tribes[i].Name) == 0)
+            Tribes[i].NumberOfMembers += 1;
+    }
+}
+
+TribeCharacteristics * GetTribes(TribeMember * TribeMembers, int NumberOfTribeMembers, int * NumberOfTribes)
+{
+    TribeCharacteristics * Tribes = (TribeCharacteristics *)calloc(MAX_NUMBER_OF_TRIBES, sizeof(TribeCharacteristics));
+
+    for (int i = 0; i < NumberOfTribeMembers; ++i)
+    {
+        if (!FindTribe(Tribes, *NumberOfTribes, TribeMembers[i].Tribe))
+        {
+            strcpy(Tribes[*NumberOfTribes].Name, TribeMembers[i].Tribe);
+            Tribes[*NumberOfTribes].NumberOfMembers += 1;
+
+            *NumberOfTribes += 1;
+        }
+        else
+        {
+            IncrementTribeMembers(TribeMembers, Tribes, NumberOfTribes, i);
+        }
+    }
+
+    return Tribes;
 }
 
 char * GetWeather(FILE * File)
@@ -135,6 +182,14 @@ void ShowAllMembers(TribeMember * TribeMembers, int NumberOfTribeMembers)
     for (int i = 0; i < NumberOfTribeMembers; ++i)
         printf("%s %s %s %0.2f %0.2f \n", TribeMembers[i].Name, TribeMembers[i].Tribe, TribeMembers[i].Function,
                TribeMembers[i].PowerWhenRains, TribeMembers[i].PowerWhenIsSunny);
+
+    printf("\n");
+}
+
+void ShowAllTribes(TribeCharacteristics * Tribes, int NumberOfTribes)
+{
+    for (int i = 0; i < NumberOfTribes; ++i)
+        printf("%s %d \n", Tribes[i].Name, Tribes[i].NumberOfMembers);
 
     printf("\n");
 }
