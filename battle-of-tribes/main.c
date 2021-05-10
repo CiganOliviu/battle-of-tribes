@@ -176,6 +176,19 @@ float GetTotalPower(char * Weather, TribeMember Member)
     return TotalPower;
 }
 
+void GetTribePower(TribeMember * TribeMembers, int NumberOfTribeMembers, TribeCharacteristics * Tribes, int NumberOfTribes, char * Weather)
+{
+    for (int i = 0; i < NumberOfTribeMembers; ++i)
+        for (int j = 0; j < NumberOfTribes; ++j)
+            if (strcmp(TribeMembers[i].Tribe, Tribes[j].Name) == 0)
+            {
+                if (strcmp(TribeMembers[i].Function, "chieftain") == 0)
+                    Tribes[j].TotalPowerOfTribe += 10 * GetTotalPower(Weather, TribeMembers[i]);
+                else
+                    Tribes[j].TotalPowerOfTribe += GetTotalPower(Weather, TribeMembers[i]);
+            }
+}
+
 void ShowAllMembers(TribeMember * TribeMembers, int NumberOfTribeMembers)
 {
     for (int i = 0; i < NumberOfTribeMembers; ++i)
