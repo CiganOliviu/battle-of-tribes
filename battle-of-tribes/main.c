@@ -19,6 +19,7 @@ typedef struct
 {
     char Name[40];
     int NumberOfMembers;
+    float TotalPowerOfTribe;
 } TribeCharacteristics;
 
 FILE * OpenFile(const char * FileName)
@@ -129,9 +130,7 @@ TribeCharacteristics * GetTribes(TribeMember * TribeMembers, int NumberOfTribeMe
             *NumberOfTribes += 1;
         }
         else
-        {
             IncrementTribeMembers(TribeMembers, Tribes, NumberOfTribes, i);
-        }
     }
 
     return Tribes;
@@ -189,7 +188,7 @@ void ShowAllMembers(TribeMember * TribeMembers, int NumberOfTribeMembers)
 void ShowAllTribes(TribeCharacteristics * Tribes, int NumberOfTribes)
 {
     for (int i = 0; i < NumberOfTribes; ++i)
-        printf("%s %d \n", Tribes[i].Name, Tribes[i].NumberOfMembers);
+        printf("%s %d %0.2f \n", Tribes[i].Name, Tribes[i].NumberOfMembers, Tribes[i].TotalPowerOfTribe);
 
     printf("\n");
 }
