@@ -223,8 +223,56 @@ void ShowAllTribes(TribeCharacteristics * Tribes, int NumberOfTribes)
     printf("\n");
 }
 
+char * EstablishesWeather()
+{
+    FILE * WeatherFile = ValidateFile("Weather.txt");
+
+    char * Weather = GetWeather(WeatherFile);
+
+    return Weather;
+}
+
+void PrepareCompetition(TribeMember ** TribeMembers, int * NumberOfTribeMembers, TribeCharacteristics ** Tribes,
+                        int * NumberOfTribes)
+{
+    FILE * TribesFile = ValidateFile("Tribes.txt");
+
+    *NumberOfTribeMembers = GetNumberOfTribeMembers(TribesFile);
+
+    fseek(TribesFile, 0, SEEK_SET);
+
+    *TribeMembers = GetTribeMembers(TribesFile);
+    printf("\nShow all tribe members : \n");
+    ShowAllMembers(*TribeMembers, *NumberOfTribeMembers);
+
+    *NumberOfTribes = 0;
+    *Tribes = GetTribes(*TribeMembers, *NumberOfTribeMembers, NumberOfTribes);
+    printf("Show all tribes : \n");
+    ShowAllTribes(*Tribes, *NumberOfTribes);
+
+    char * Weather = EstablishesWeather();
+
+    GetTribePower(*TribeMembers, *NumberOfTribeMembers, *Tribes, *NumberOfTribes, Weather);
+    ShowAllTribes(*Tribes, *NumberOfTribes);
+}
+
+void EstablishesWinner(TribeCharacteristics * Tribe, int NumberOfTribes)
+{
+    char * WinningTribe = FindWinningTribe(Tribe, NumberOfTribes);
+    printf("The winning tribe is %s.", WinningTribe);
+}
+
 int main()
 {
+    int NumberOfTribeMembers;
+    TribeMember * TribeMembers;
+
+    int NumberOfTribes;
+    TribeCharacteristics * Tribe;
+
+    PrepareCompetition(&TribeMembers, &NumberOfTribeMembers, &Tribe, &NumberOfTribes);
+
+    EstablishesWinner(Tribe, NumberOfTribes);
 
     return 0;
 }
