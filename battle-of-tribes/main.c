@@ -189,6 +189,21 @@ void GetTribePower(TribeMember * TribeMembers, int NumberOfTribeMembers, TribeCh
             }
 }
 
+char * FindWinningTribe(TribeCharacteristics * Tribes, int NumberOfTribes)
+{
+    char * WinningTribe = (char *)malloc(40 * sizeof(char));
+    strcpy(WinningTribe, Tribes[0].Name);
+
+    float MaxPower = Tribes[0].TotalPowerOfTribe;
+
+    for (int i = 1; i < NumberOfTribes; ++i)
+        for (int j = i + 1; j < NumberOfTribes; ++j)
+            if (Tribes[i].TotalPowerOfTribe > MaxPower)
+                MaxPower = Tribes[i].TotalPowerOfTribe;
+
+    return WinningTribe;
+}
+
 void ShowAllMembers(TribeMember * TribeMembers, int NumberOfTribeMembers)
 {
     for (int i = 0; i < NumberOfTribeMembers; ++i)
